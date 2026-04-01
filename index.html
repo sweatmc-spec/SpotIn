@@ -1,0 +1,1121 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SpotIn AI — Asisten Pintar Nongkrong</title>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #F4F4FF;
+      --bg2: #EBEBFF;
+      --kartu: #FFFFFF;
+      --teks: #1A1A2E;
+      --teks2: #444466;
+      --muted: #8888AA;
+      --border: #E0E0F5;
+      --ungu: #6C63FF;
+      --ungu2: #A78BFA;
+      --ungu-bg: #EEF0FF;
+      --bayang: rgba(108, 99, 255, 0.12);
+      --chat-ai: #FFFFFF;
+      --chat-usr: #6C63FF;
+      --input-bg: #FFFFFF;
+    }
+
+    html.dark {
+      --bg: #0D0C1A;
+      --bg2: #13122A;
+      --kartu: #1A1930;
+      --teks: #EEEEFF;
+      --teks2: #BBBBD8;
+      --muted: #777799;
+      --border: rgba(255, 255, 255, 0.08);
+      --ungu: #8B7FFF;
+      --ungu2: #A78BFA;
+      --ungu-bg: rgba(139, 127, 255, 0.12);
+      --bayang: rgba(0, 0, 0, 0.35);
+      --chat-ai: #1A1930;
+      --chat-usr: #5B52E0;
+      --input-bg: #1A1930;
+    }
+
+    *,
+    *::before,
+    *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box
+    }
+
+    html,
+    body {
+      height: 100%
+    }
+
+    body {
+      font-family: 'Nunito', sans-serif;
+      background: var(--bg);
+      color: var(--teks);
+      transition: background .3s, color .3s;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh
+    }
+
+    .navbar {
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 1.5rem;
+      background: var(--kartu);
+      border-bottom: 1px solid var(--border);
+      box-shadow: 0 2px 16px var(--bayang);
+      transition: background .3s;
+      flex-shrink: 0
+    }
+
+    .nav-kiri {
+      display: flex;
+      align-items: center;
+      gap: .75rem
+    }
+
+    .logo {
+      font-size: 1.4rem;
+      font-weight: 900;
+      color: var(--ungu);
+      text-decoration: none
+    }
+
+    .logo span {
+      color: var(--teks);
+      transition: color .3s
+    }
+
+    .badge-ai {
+      padding: .2rem .75rem;
+      border-radius: 50px;
+      background: var(--ungu-bg);
+      color: var(--ungu);
+      font-size: .72rem;
+      font-weight: 800;
+      border: 1px solid rgba(108, 99, 255, .2)
+    }
+
+    .nav-kanan {
+      display: flex;
+      align-items: center;
+      gap: .75rem
+    }
+
+    .btn-tema {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: var(--ungu-bg);
+      border: 1.5px solid rgba(108, 99, 255, .2);
+      font-size: 1.2rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background .2s, transform .2s
+    }
+
+    .btn-tema:hover {
+      background: var(--ungu);
+      transform: scale(1.1)
+    }
+
+    .layout {
+      display: flex;
+      flex: 1;
+      overflow: hidden;
+      height: calc(100vh - 60px)
+    }
+
+    .sidebar {
+      width: 280px;
+      flex-shrink: 0;
+      background: var(--kartu);
+      border-right: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      padding: 1.2rem;
+      gap: .75rem;
+      overflow-y: auto;
+      transition: background .3s
+    }
+
+    .sidebar-label {
+      font-size: .7rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: .1em;
+      color: var(--muted);
+      padding: 0 .2rem
+    }
+
+    .btn-primer {
+      width: 100%;
+      padding: .65rem;
+      background: var(--ungu);
+      color: white;
+      border: none;
+      border-radius: 12px;
+      font-family: 'Nunito', sans-serif;
+      font-size: .88rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: opacity .2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: .5rem;
+      text-decoration: none
+    }
+
+    .btn-primer:hover {
+      opacity: .85
+    }
+
+    .btn-sekunder {
+      width: 100%;
+      padding: .65rem;
+      background: transparent;
+      color: var(--ungu);
+      border: 1.5px solid rgba(108, 99, 255, .3);
+      border-radius: 12px;
+      font-family: 'Nunito', sans-serif;
+      font-size: .88rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all .2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: .5rem;
+      text-decoration: none
+    }
+
+    .btn-sekunder:hover {
+      background: var(--ungu);
+      color: white;
+      border-color: var(--ungu)
+    }
+
+    .mini-map {
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      height: 145px;
+      position: relative;
+      background: var(--bg);
+      display: flex;
+      align-items: center;
+      justify-content: center
+    }
+
+    .mini-map iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+      display: none
+    }
+
+    .map-ph {
+      text-align: center;
+      padding: .8rem
+    }
+
+    .map-ph-ikon {
+      font-size: 2rem;
+      margin-bottom: .4rem;
+      display: block
+    }
+
+    .map-ph p {
+      font-size: .72rem;
+      color: var(--muted);
+      margin-bottom: .6rem;
+      line-height: 1.5
+    }
+
+    .btn-lokasi {
+      padding: .35rem .9rem;
+      border-radius: 50px;
+      background: var(--ungu);
+      color: white;
+      border: none;
+      font-family: 'Nunito', sans-serif;
+      font-size: .73rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: opacity .2s
+    }
+
+    .btn-lokasi:hover {
+      opacity: .85
+    }
+
+    .spot-terdekat {
+      display: flex;
+      flex-direction: column;
+      gap: .4rem
+    }
+
+    .spot-item {
+      display: flex;
+      align-items: center;
+      gap: .6rem;
+      padding: .55rem .7rem;
+      border-radius: 10px;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      cursor: pointer;
+      transition: all .2s
+    }
+
+    .spot-item:hover {
+      background: var(--ungu-bg);
+      border-color: rgba(108, 99, 255, .3)
+    }
+
+    .spot-ikon {
+      font-size: 1.3rem;
+      flex-shrink: 0
+    }
+
+    .spot-info {
+      flex: 1;
+      min-width: 0
+    }
+
+    .spot-nama {
+      font-size: .78rem;
+      font-weight: 700;
+      color: var(--teks);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis
+    }
+
+    .spot-meta {
+      font-size: .68rem;
+      color: var(--muted);
+      margin-top: .1rem
+    }
+
+    .spot-rating {
+      font-size: .7rem;
+      color: #F59E0B;
+      font-weight: 700;
+      flex-shrink: 0
+    }
+
+    .info-mcp {
+      margin-top: auto;
+      padding: .9rem;
+      border-radius: 12px;
+      background: var(--ungu-bg);
+      border: 1px solid rgba(108, 99, 255, .2)
+    }
+
+    .info-mcp-judul {
+      font-size: .72rem;
+      font-weight: 800;
+      color: var(--ungu);
+      margin-bottom: .4rem
+    }
+
+    .info-mcp-teks {
+      font-size: .75rem;
+      color: var(--muted);
+      line-height: 1.6
+    }
+
+    .dot {
+      display: inline-block;
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #22C55E;
+      margin-right: .35rem;
+      animation: kedip 2s ease-in-out infinite
+    }
+
+    .dot.err {
+      background: #EF4444
+    }
+
+    @keyframes kedip {
+
+      0%,
+      100% {
+        opacity: 1
+      }
+
+      50% {
+        opacity: .3
+      }
+    }
+
+    .chat-area {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      min-width: 0
+    }
+
+    .chat-header {
+      padding: 1rem 1.5rem;
+      border-bottom: 1px solid var(--border);
+      background: var(--kartu);
+      display: flex;
+      align-items: center;
+      gap: .75rem;
+      flex-shrink: 0;
+      transition: background .3s
+    }
+
+    .ai-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--ungu), var(--ungu2));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      flex-shrink: 0
+    }
+
+    .ai-nama {
+      font-size: .95rem;
+      font-weight: 800
+    }
+
+    .ai-status {
+      font-size: .72rem;
+      color: #22C55E;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: .3rem
+    }
+
+    .ai-status.offline {
+      color: #EF4444
+    }
+
+    .chat-pesan {
+      flex: 1;
+      overflow-y: auto;
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      scroll-behavior: smooth
+    }
+
+    .chat-pesan::-webkit-scrollbar {
+      width: 4px
+    }
+
+    .chat-pesan::-webkit-scrollbar-thumb {
+      background: var(--border);
+      border-radius: 4px
+    }
+
+    .baris {
+      display: flex;
+      gap: .6rem;
+      align-items: flex-end;
+      animation: muncul .3s ease both
+    }
+
+    @keyframes muncul {
+      from {
+        opacity: 0;
+        transform: translateY(10px)
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0)
+      }
+    }
+
+    .baris.user {
+      flex-direction: row-reverse
+    }
+
+    .avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: .9rem
+    }
+
+    .avatar.ai {
+      background: linear-gradient(135deg, var(--ungu), var(--ungu2))
+    }
+
+    .avatar.user {
+      background: var(--ungu);
+      color: white;
+      font-size: .75rem;
+      font-weight: 800
+    }
+
+    .bubble {
+      max-width: 70%;
+      padding: .85rem 1.1rem;
+      border-radius: 18px;
+      font-size: .88rem;
+      line-height: 1.65
+    }
+
+    .bubble.ai {
+      background: var(--chat-ai);
+      border: 1px solid var(--border);
+      color: var(--teks);
+      border-radius: 4px 18px 18px 18px;
+      box-shadow: 0 2px 10px var(--bayang);
+      white-space: pre-wrap;
+      word-break: break-word
+    }
+
+    .bubble.user {
+      background: var(--chat-usr);
+      color: white;
+      border-radius: 18px 4px 18px 18px
+    }
+
+    .waktu {
+      font-size: .67rem;
+      color: var(--muted);
+      padding: 0 .5rem;
+      align-self: flex-end
+    }
+
+    .sambutan {
+      text-align: center;
+      padding: 2rem 1rem;
+      animation: muncul .5s ease both
+    }
+
+    .sambutan-ikon {
+      width: 70px;
+      height: 70px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--ungu), var(--ungu2));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      margin: 0 auto 1rem;
+      box-shadow: 0 8px 28px var(--bayang)
+    }
+
+    .sambutan h2 {
+      font-size: 1.4rem;
+      font-weight: 900;
+      margin-bottom: .4rem
+    }
+
+    .sambutan p {
+      font-size: .88rem;
+      color: var(--muted);
+      max-width: 380px;
+      margin: 0 auto 1.5rem;
+      line-height: 1.65
+    }
+
+    .chips {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: .45rem
+    }
+
+    .chip {
+      padding: .4rem .9rem;
+      border-radius: 50px;
+      background: var(--kartu);
+      border: 1px solid var(--border);
+      font-size: .78rem;
+      font-weight: 700;
+      color: var(--teks2);
+      cursor: pointer;
+      transition: all .2s
+    }
+
+    .chip:hover {
+      background: var(--ungu);
+      color: white;
+      border-color: var(--ungu)
+    }
+
+    .typing {
+      display: flex;
+      gap: .6rem;
+      align-items: flex-end;
+      animation: muncul .3s ease both
+    }
+
+    .typing-bubble {
+      background: var(--chat-ai);
+      border: 1px solid var(--border);
+      border-radius: 4px 18px 18px 18px;
+      padding: .85rem 1.1rem;
+      display: flex;
+      gap: .3rem;
+      align-items: center
+    }
+
+    .typing-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--muted);
+      animation: bounce 1.2s ease infinite
+    }
+
+    .typing-dot:nth-child(2) {
+      animation-delay: .15s
+    }
+
+    .typing-dot:nth-child(3) {
+      animation-delay: .3s
+    }
+
+    @keyframes bounce {
+
+      0%,
+      60%,
+      100% {
+        transform: translateY(0)
+      }
+
+      30% {
+        transform: translateY(-6px)
+      }
+    }
+
+    .input-area {
+      padding: 1rem 1.5rem;
+      border-top: 1px solid var(--border);
+      background: var(--kartu);
+      flex-shrink: 0
+    }
+
+    .input-kotak {
+      display: flex;
+      align-items: center;
+      gap: .6rem;
+      background: var(--input-bg);
+      border: 1.5px solid var(--border);
+      border-radius: 50px;
+      padding: .45rem .45rem .45rem 1.3rem;
+      transition: border-color .2s, box-shadow .2s
+    }
+
+    .input-kotak:focus-within {
+      border-color: var(--ungu);
+      box-shadow: 0 0 0 4px rgba(108, 99, 255, .1)
+    }
+
+    .input-kotak input {
+      flex: 1;
+      border: none;
+      outline: none;
+      background: transparent;
+      font-family: 'Nunito', sans-serif;
+      font-size: .92rem;
+      color: var(--teks)
+    }
+
+    .input-kotak input::placeholder {
+      color: var(--muted)
+    }
+
+    .btn-kirim {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: var(--ungu);
+      color: white;
+      border: none;
+      cursor: pointer;
+      font-size: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: opacity .2s, transform .2s;
+      flex-shrink: 0
+    }
+
+    .btn-kirim:hover {
+      opacity: .85;
+      transform: scale(1.05)
+    }
+
+    .btn-kirim:disabled {
+      opacity: .4;
+      cursor: not-allowed;
+      transform: none
+    }
+
+    .input-hint {
+      text-align: center;
+      font-size: .7rem;
+      color: var(--muted);
+      margin-top: .6rem
+    }
+
+    #notif {
+      position: fixed;
+      bottom: 1.5rem;
+      left: 50%;
+      transform: translateX(-50%) translateY(16px);
+      z-index: 9999;
+      background: var(--kartu);
+      color: var(--teks);
+      border: 1px solid var(--border);
+      padding: .6rem 1.4rem;
+      border-radius: 50px;
+      font-size: .84rem;
+      font-weight: 700;
+      box-shadow: 0 8px 24px var(--bayang);
+      opacity: 0;
+      transition: all .28s;
+      pointer-events: none;
+      white-space: nowrap
+    }
+
+    @media(max-width:768px) {
+      .sidebar {
+        display: none
+      }
+    }
+
+    @media(max-width:480px) {
+      .chat-header {
+        padding: .75rem 1rem
+      }
+
+      .chat-pesan {
+        padding: 1rem
+      }
+
+      .input-area {
+        padding: .75rem 1rem
+      }
+
+      .bubble {
+        max-width: 85%
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <nav class="navbar">
+    <div class="nav-kiri">
+      <a href="/" class="logo">Spot<span>In</span></a>
+      <div class="badge-ai">🤖 AI Assistant</div>
+    </div>
+    <div class="nav-kanan">
+      <button class="btn-tema" id="theme-icon" onclick="gantiTema()">☀️</button>
+    </div>
+  </nav>
+
+  <div class="layout">
+    <aside class="sidebar">
+      <div class="sidebar-label">Menu</div>
+      <button class="btn-primer" onclick="chatBaru()">✦ Chat Baru</button>
+      <a href="/map.html" class="btn-sekunder">🗺️ Lihat Peta SpotIn</a>
+
+      <div class="info-mcp">
+        <div class="info-mcp-judul">
+          <span class="dot" id="mcp-dot"></span>
+          <span id="mcp-teks">Menghubungkan...</span>
+        </div>
+        <div class="info-mcp-teks">
+          AI ini menggunakan <strong>Model Context Protocol</strong> untuk mencari spot nongkrong secara real-time.
+        </div>
+      </div>
+    </aside>
+
+    <div class="chat-area">
+      <div class="chat-header">
+        <div class="ai-avatar">🤖</div>
+        <div>
+          <div class="ai-nama">SpotIn AI</div>
+          <div class="ai-status" id="ai-status">
+            <span class="dot"></span> Online · MCP Aktif
+          </div>
+        </div>
+      </div>
+
+      <div class="chat-pesan" id="chat-pesan">
+        <div class="sambutan" id="sambutan">
+          <div class="sambutan-ikon">🤖</div>
+          <h2>Halo! Saya SpotIn AI 👋</h2>
+          <p>Tanya saya tentang cafe, restoran, atau tempat nongkrong di kotamu. Saya carikan lewat MCP!</p>
+          <div class="chips">
+            <div class="chip" onclick="kirimTeks('Cafe di Pontianak')">☕ Cafe Pontianak</div>
+            <div class="chip" onclick="kirimTeks('Restoran enak di Sintang')">🍜 Resto Sintang</div>
+            <div class="chip" onclick="kirimTeks('Tempat nongkrong di Singkawang')">🗺️ Singkawang</div>
+            <div class="chip" onclick="kirimTeks('Cari Mixue terdekat')">🍦 Cari Mixue</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="input-area">
+        <div class="input-kotak">
+          <input type="text" id="input-chat" placeholder="Tanya tentang spot nongkrong..."
+            onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();kirimPesan();}" />
+          <button class="btn-kirim" id="btn-kirim" onclick="kirimPesan()">➤</button>
+        </div>
+        <div class="input-hint">⚡ Ditenagai MCP + Ollama · Tekan Enter untuk kirim</div>
+      </div>
+    </div>
+  </div>
+
+  <div id="notif"></div>
+
+  <script>
+    // ============================================================
+    // VARIABEL GLOBAL
+    // ============================================================
+
+    const API = '';                             // Base URL backend (kosong = same-origin localhost:3000)
+    let sessionId = 'spotin_' + Date.now();    // ID unik sesi chat, berbasis timestamp
+    let sibuk = false;                          // true = menunggu balasan AI, cegah kirim ganda
+    let timerNotif;                             // Timer untuk auto-hide notifikasi popup
+
+    // ============================================================
+    // FUNGSI: initTheme()
+    // Membaca tema tersimpan di localStorage saat halaman pertama dibuka.
+    // Default: 'light'. Mengubah class 'dark' di <html> dan ikon tombol tema.
+    // ============================================================
+    function initTheme() {
+      const saved = localStorage.getItem('theme') || 'light';
+      if (saved === 'dark') {
+        document.documentElement.classList.add('dark');
+        document.getElementById('theme-icon').textContent = '🌙';
+      } else {
+        document.documentElement.classList.remove('dark');
+        document.getElementById('theme-icon').textContent = '☀️';
+      }
+    }
+
+    // ============================================================
+    // FUNGSI: gantiTema()
+    // Dipanggil saat tombol tema (☀️/🌙) diklik.
+    // Toggle mode gelap/terang dan simpan pilihan ke localStorage
+    // supaya tema tetap sama saat halaman di-refresh.
+    // ============================================================
+    function gantiTema() {
+      const isDark = document.documentElement.classList.toggle('dark');
+      document.getElementById('theme-icon').textContent = isDark ? '🌙' : '☀️';
+      localStorage.setItem('theme', isDark ? 'dark' : 'light');
+    }
+
+    initTheme(); // Terapkan tema saat halaman pertama dibuka
+
+    // ============================================================
+    // FUNGSI: cekStatus()  [async]
+    // Mengecek apakah backend dan MCP server sedang aktif
+    // dengan memanggil GET /api/health.
+    //
+    // Hasil ditampilkan di:
+    // - Sidebar bawah: dot hijau/merah + teks status MCP
+    // - Header chat  : "Online · MCP Aktif" atau "MCP Tidak Aktif"
+    //
+    // Kalau server mati total → tampilkan "Server Offline"
+    // ============================================================
+    async function cekStatus() {
+      try {
+        const r = await fetch('/api/health');
+        const d = await r.json();
+        const dot = document.getElementById('mcp-dot');
+        const teks = document.getElementById('mcp-teks');
+        const stat = document.getElementById('ai-status');
+
+        if (d.mcpConnected) {
+          // MCP berhasil terhubung → dot hijau berkedip
+          dot.classList.remove('err');
+          teks.textContent = 'MCP Terhubung';
+          stat.className = 'ai-status';
+          stat.innerHTML = '<span class="dot"></span> Online · MCP Aktif';
+        } else {
+          // MCP gagal → dot merah
+          dot.classList.add('err');
+          teks.textContent = 'MCP Tidak Aktif';
+          stat.className = 'ai-status offline';
+          stat.innerHTML = '<span class="dot err"></span> MCP Tidak Aktif';
+        }
+      } catch {
+        // Server tidak bisa dijangkau sama sekali
+        document.getElementById('mcp-dot').classList.add('err');
+        document.getElementById('mcp-teks').textContent = 'Server Offline';
+        document.getElementById('ai-status').className = 'ai-status offline';
+        document.getElementById('ai-status').innerHTML = '<span class="dot err"></span> Server Offline';
+      }
+    }
+    cekStatus(); // Panggil sekali saat halaman dibuka
+
+    // ============================================================
+    // FUNGSI: kirimPesan()
+    // Fungsi utama untuk mengirim pesan user ke AI.
+    //
+    // Proses:
+    //   1. Ambil teks dari input, validasi tidak kosong
+    //   2. Kosongkan input & tampilkan bubble pesan user (kanan)
+    //   3. Tampilkan animasi "sedang mengetik" (3 titik bouncing)
+    //   4. Sembunyikan layar sambutan jika masih tampil
+    //   5. POST ke /api/chat dengan { message, sessionId }
+    //   6. Terima balasan → hapus animasi → tampilkan bubble AI (kiri)
+    //   7. Kalau koneksi gagal → tampilkan pesan error
+    //
+    // `sibuk` mencegah user kirim pesan ganda saat menunggu balasan.
+    // ============================================================
+    function kirimPesan() {
+      const input = document.getElementById('input-chat');
+      const teks = input.value.trim();
+      if (!teks || sibuk) return; // Abaikan jika kosong atau sedang menunggu
+
+      input.value = '';
+      tambahUser(teks);   // Tampilkan bubble user di kanan
+      tampilTyping();     // Tampilkan animasi 3 titik
+      sembunyiSambutan(); // Sembunyikan layar selamat datang
+      sibuk = true;
+      document.getElementById('btn-kirim').disabled = true;
+
+      fetch('/api/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message: teks, sessionId }),
+      })
+        .then(r => r.json())
+        .then(d => {
+          hapusTyping();
+          tambahAI(d.error ? '❌ ' + d.error : d.reply);
+        })
+        .catch(() => {
+          hapusTyping();
+          tambahAI('❌ Server tidak bisa dijangkau.\nPastikan server berjalan: npm start');
+        });
+    }
+
+    // ============================================================
+    // FUNGSI: kirimTeks(teks)
+    // Shortcut untuk mengirim teks tertentu langsung tanpa mengetik.
+    // Dipakai oleh:
+    // - Chip quick-reply di layar sambutan (Cafe Pontianak, dll)
+    // - Item spot di sidebar saat diklik ("Ceritakan tentang X")
+    // ============================================================
+    function kirimTeks(teks) {
+      document.getElementById('input-chat').value = teks;
+      kirimPesan();
+    }
+
+    // ============================================================
+    // FUNGSI: tambahUser(teks)
+    // Membuat bubble pesan dari user dan menambahkannya ke area chat.
+    // - Posisi: kanan layar
+    // - Warna: ungu (--chat-usr)
+    // - Menyertakan timestamp jam:menit
+    // ============================================================
+    function tambahUser(teks) {
+      const area = document.getElementById('chat-pesan');
+      const div = document.createElement('div');
+      div.className = 'baris user';
+      div.innerHTML = `
+        <div class="waktu">${jam()}</div>
+        <div class="bubble user">${esc(teks)}</div>
+        <div class="avatar user">Aku</div>`;
+      area.appendChild(div);
+      scrollDown();
+    }
+
+    // ============================================================
+    // FUNGSI: tambahAI(teks)
+    // Membuat bubble balasan dari AI dan menambahkannya ke area chat.
+    // - Posisi: kiri layar
+    // - Warna: putih/gelap (--chat-ai)
+    // - Mendukung teks multiline (white-space: pre-wrap)
+    // Juga mengaktifkan kembali tombol kirim setelah AI selesai balas.
+    // ============================================================
+    function tambahAI(teks) {
+      const area = document.getElementById('chat-pesan');
+      const div = document.createElement('div');
+      div.className = 'baris';
+      div.innerHTML = `
+        <div class="avatar ai">🤖</div>
+        <div><div class="bubble ai">${esc(teks)}</div></div>
+        <div class="waktu">${jam()}</div>`;
+      area.appendChild(div);
+      scrollDown();
+      sibuk = false; // Buka kunci — user bisa kirim lagi
+      document.getElementById('btn-kirim').disabled = false;
+    }
+
+    // ============================================================
+    // FUNGSI: tampilTyping()
+    // Menampilkan animasi "AI sedang mengetik" — 3 titik yang bouncing.
+    // Ditampilkan sementara saat menunggu balasan dari server.
+    // Diberi id="typing" agar mudah dihapus oleh hapusTyping().
+    // ============================================================
+    function tampilTyping() {
+      const area = document.getElementById('chat-pesan');
+      const div = document.createElement('div');
+      div.className = 'typing';
+      div.id = 'typing';
+      div.innerHTML = `
+        <div class="avatar ai">🤖</div>
+        <div class="typing-bubble">
+          <div class="typing-dot"></div>
+          <div class="typing-dot"></div>
+          <div class="typing-dot"></div>
+        </div>`;
+      area.appendChild(div);
+      scrollDown();
+    }
+
+    // ============================================================
+    // FUNGSI: hapusTyping()
+    // Menghapus animasi "sedang mengetik" dari layar.
+    // Dipanggil setelah balasan AI diterima (sukses maupun error).
+    // ============================================================
+    function hapusTyping() {
+      const el = document.getElementById('typing');
+      if (el) el.remove();
+    }
+
+    // ============================================================
+    // FUNGSI: sembunyiSambutan()
+    // Menyembunyikan layar sambutan awal (pesan selamat datang + chips)
+    // saat user mulai mengirim pesan pertama.
+    // ============================================================
+    function sembunyiSambutan() {
+      const s = document.getElementById('sambutan');
+      if (s) s.style.display = 'none';
+    }
+
+    // ============================================================
+    // FUNGSI: scrollDown()
+    // Otomatis scroll area chat ke bawah setelah pesan baru ditambah,
+    // supaya pesan terbaru selalu terlihat.
+    // Delay 50ms agar DOM selesai render sebelum di-scroll.
+    // ============================================================
+    function scrollDown() {
+      const a = document.getElementById('chat-pesan');
+      setTimeout(() => a.scrollTop = a.scrollHeight, 50);
+    }
+
+    // ============================================================
+    // FUNGSI: jam()
+    // Mengembalikan waktu sekarang dalam format "HH:MM".
+    // Dipakai sebagai label waktu di setiap bubble pesan.
+    // padStart(2,'0') memastikan format selalu 2 digit, contoh: "09:05"
+    // ============================================================
+    function jam() {
+      const d = new Date();
+      return d.getHours().toString().padStart(2, '0') + ':'
+        + d.getMinutes().toString().padStart(2, '0');
+    }
+
+    // ============================================================
+    // FUNGSI: esc(t)
+    // Escape karakter HTML berbahaya untuk keamanan (anti-XSS).
+    // Mencegah teks yang mengandung <script> atau tag HTML lain
+    // dieksekusi sebagai kode di browser.
+    // Juga ubah \n (newline) → <br> agar baris baru tampil dengan benar.
+    //
+    // Contoh: "<b>hello</b>" → "&lt;b&gt;hello&lt;/b&gt;"
+    // ============================================================
+    function esc(t) {
+      return t
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/\n/g, '<br>');
+    }
+
+    // ============================================================
+    // FUNGSI: notif(msg)
+    // Menampilkan popup notifikasi kecil di bagian bawah tengah layar.
+    // Muncul dengan animasi slide ke atas, lalu otomatis hilang
+    // setelah 2.5 detik.
+    // Dipakai untuk feedback singkat seperti "✨ Chat baru dimulai!"
+    // atau "✅ Lokasi aktif!"
+    // ============================================================
+    function notif(msg) {
+      const el = document.getElementById('notif');
+      el.textContent = msg;
+      el.style.opacity = '1';
+      el.style.transform = 'translateX(-50%) translateY(0)';
+      clearTimeout(timerNotif); // Reset jika notif sebelumnya belum hilang
+      timerNotif = setTimeout(() => {
+        el.style.opacity = '0';
+        el.style.transform = 'translateX(-50%) translateY(16px)';
+      }, 2500);
+    }
+
+    // ============================================================
+    // FUNGSI: chatBaru()
+    // Mereset sesi chat dan memulai percakapan dari awal.
+    //
+    // Proses:
+    //   1. Buat sessionId baru (timestamp baru = sesi berbeda)
+    //   2. POST ke /api/reset untuk hapus riwayat di server
+    //   3. Bersihkan area chat dan tampilkan ulang layar sambutan
+    //   4. Reset state: sibuk=false, tombol kirim aktif kembali
+    //   5. Tampilkan notifikasi "Chat baru dimulai!"
+    // ============================================================
+    function chatBaru() {
+      sessionId = 'spotin_' + Date.now(); // Buat ID sesi baru
+
+      // Beritahu server untuk reset riwayat sesi lama
+      fetch('/api/reset', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ sessionId }),
+      }).catch(() => { }); // Abaikan error (tidak kritis)
+
+      // Tampilkan ulang layar sambutan dengan chip quick-reply
+      document.getElementById('chat-pesan').innerHTML = `
+        <div class="sambutan" id="sambutan">
+          <div class="sambutan-ikon">🤖</div>
+          <h2>Chat Baru Dimulai! 👋</h2>
+          <p>Tanya saya tentang cafe, restoran, atau tempat nongkrong di kotamu!</p>
+          <div class="chips">
+            <div class="chip" onclick="kirimTeks('Cafe di Pontianak')">☕ Cafe Pontianak</div>
+            <div class="chip" onclick="kirimTeks('Restoran enak di Sintang')">🍜 Resto Sintang</div>
+            <div class="chip" onclick="kirimTeks('Tempat nongkrong di Singkawang')">🗺️ Singkawang</div>
+            <div class="chip" onclick="kirimTeks('Cari Mixue terdekat')">🍦 Cari Mixue</div>
+          </div>
+        </div>`;
+
+      sibuk = false;
+      document.getElementById('btn-kirim').disabled = false;
+      notif('✨ Chat baru dimulai!');
+    }
+  </script>
+</body>
+
+</html>
