@@ -1,10 +1,10 @@
-const express   = require('express');
-const cors      = require('cors');
-const NodeCache = require('node-cache');
-const axios     = require('axios');
-require('dotenv').config(); // ✅ FIX: 'dontenv' → 'dotenv'
+const express   = require('express');//bikin server
+const cors      = require('cors');//izinkan akses dari frontend
+const NodeCache = require('node-cache');//simpan data sementara (hemat API)
+const axios     = require('axios');//REQUEST KE API
+require('dotenv').config(); //ambbil api key dari .env
 
-const app  = express();
+const app  = express();//jalankan server di port .env
 const PORT = process.env.PORT || 3000; // jika .env tidak ada port maka menggunakan port 3000
 
 // NodeCache menyimpan data hasil dari API di memory (RAM),
@@ -26,8 +26,7 @@ app.use(cors({ origin: '*' }));     // cors memblokir orang yang localhost-nya b
 app.use(express.json());            // sebagai pembaca json. cara kerjanya:
                                     // JSON.stringify() = memasukkan prompt ke dalam kotak (browser kirim)
                                     // express.json()   = membuka kotak dan mengambil isinya (server baca)
-app.use(express.static(__dirname)); // ✅ FIX: '_dirname' → '__dirname'
-                                    // menjalankan HTML, CSS dan JS saja
+app.use(express.static(__dirname)); // menjalankan HTML, CSS dan JS saja
                                     // express.static cari index.html → ketemu → kirim ke browser → tampil!
 
 // ================================================================
@@ -114,7 +113,7 @@ function formatPlace(feature) {
         // alamat lengkap versi Geoapify dalam satu baris, dipakai di modal detail
         // contoh: "CW Cafe, Jl. Oevang Oeray No. 10, Sintang, West Kalimantan, Indonesia"
 
-        types: (p.categories || []).map(c => c.split('.').pop()), // ✅ FIX: split(',') → split('.')
+        types: (p.categories || []).map(c => c.split('.').pop()), 
         // mengambil tipe tempat dari kategori Geoapify, dia mencari bagian terakhir saja
         // contoh: "catering.cafe" → split('.') → ["catering","cafe"] → pop() → "cafe"
         // hasil: types = ["cafe", "coffee_shop"]
@@ -139,14 +138,13 @@ function formatPlace(feature) {
 // fungsi fetchOnce: melakukan SATU request ke Geoapify Places API
 // limit 40 = batas maksimal hasil per request dari Geoapify
 async function fetchOnce(lng, lat, category, radius, limit = 40) {
-    const { data } = await axios.get(`${GEO_BASE}/v2/places`, { // ✅ FIX: 'Geo_BASE' → 'GEO_BASE'
-    // axios adalah kendaraan untuk pergi ke Geoapify, await menunggu jawaban dari Geoapify
+    const { data } = await axios.get(`${GEO_BASE}/v2/places`, { // axios adalah kendaraan untuk pergi ke Geoapify, await menunggu jawaban dari Geoapify
         params: {
             categories: category,                          // tipe tempat dari TYPE_MAP
             filter:     `circle:${lng},${lat},${radius}`, // batasi area berbentuk lingkaran
             bias:       `proximity:${lng},${lat}`,         // prioritaskan yang paling dekat
             limit,                                         // maksimal hasil yaitu 40 default kalau tidak diisi
-            apiKey:     getKey(),                          // ✅ FIX: 'apikey' → 'apiKey'  tiket masuk ke Geoapify
+            apiKey:     getKey(),                          // tiket masuk ke Geoapify
         },
     });
     return (data.features || [])
@@ -177,7 +175,7 @@ async function fetchPlaces(lng, lat, category, radius) {
         'catering.restaurant',
         'catering.fast_food',
         'catering.food_court',
-        'catering.bar,catering.pub', // ✅ FIX: 'caterinng' → 'catering'
+        'catering.bar,catering.pub', 
         'catering.ice_cream',
     ];
 
@@ -275,7 +273,7 @@ app.get('/api/places/search', async (req, res) => {
     // validasi — pastikan keyword tidak kosong sebelum lanjut
 
     // cache adalah tempat menyimpan hasil sementara supaya tidak perlu request ke Geoapify berulang kali
-    const cacheKey = `s_${q}_${type}`; // ✅ FIX: '$_' → 's_'
+    const cacheKey = `s_${q}_${type}`; 
     // membuat nama unik untuk setiap kombinasi pencarian
     // contoh: q='Sintang' type='cafe' → cacheKey = 's_Sintang_cafe'
 
@@ -298,7 +296,7 @@ app.get('/api/places/search', async (req, res) => {
         console.log(`[search] Geocode "${searchText}"`); // menulis pesan di terminal
 
         const geoRes = await axios.get(`${GEO_BASE}/v1/geocode/search`, {
-            params: { text: searchText, limit: 5, filter: 'countrycode:id', apiKey: getKey() }, // ✅ FIX: 'apikey' → 'apiKey'
+            params: { text: searchText, limit: 5, filter: 'countrycode:id', apiKey: getKey() },
         });
         // kirim nama kota ke Geoapify untuk dapat koordinatnya — ini namanya Geocoding
         // Geocoding = ubah nama tempat → koordinat
@@ -438,7 +436,7 @@ app.get('/api/places/details', async (req, res) => {
     try {
         const { data } = await axios.get(`${GEO_BASE}/v2/place-details`, {
         // minta detail lengkap satu tempat ke Geoapify berdasarkan place_id
-            params: { id: place_id, apiKey: getKey() }, // ✅ FIX: 'apikey' → 'apiKey'
+            params: { id: place_id, apiKey: getKey() }, 
         });
         res.json({ success: true, result: data.features?.[0]?.properties || {} });
         // ambil properties dari hasil pertama
@@ -468,7 +466,7 @@ app.get('/api/places/autocomplete', async (req, res) => {
     // kalau sudah pernah dicari pakai cache, tapi jika tidak pakai Geoapify
 
     try {
-        const params = { text: input, limit: 5, apiKey: getKey() }; // ✅ FIX: 'apikey' → 'apiKey'
+        const params = { text: input, limit: 5, apiKey: getKey() };
         // parameter yang dikirim ke Geoapify
 
         if (lat && lng) params.bias = `proximity:${lng},${lat}`;
@@ -577,7 +575,19 @@ async function startMCP() {
 // ================================================================
 const SYSTEM_PROMPT = `Kamu adalah SpotIn AI, asisten pencari tempat nongkrong di Indonesia.
 Kamu membantu pengguna menemukan cafe, restoran, dan tempat makan di kota mereka.
-Jawab dengan ramah dalam Bahasa Indonesia. Kalau ditanya tempat di suatu kota, berikan saran umum berdasarkan pengetahuanmu.
+Jawab dengan ramah dalam Bahasa Indonesia.
+
+Saat menampilkan daftar tempat, gunakan format tabel markdown seperti ini:
+| No | Nama | Alamat | Kontak | Catatan | Rasa Suasana |
+|----|------|--------|--------|---------|---------------|
+| 1  | nama | alamat | nomor  | catatan | ramai/cocok untuk kerja/santai |
+
+Pastikan kolom Kontak tidak terpotong — tulis nomor telepon lengkap dalam satu baris.
+Berikan catatan singkat yang menarik untuk setiap tempat.
+
+tolong buat teks nya se rapih mungkin dan muda di baca untuk user. dan tolong berikan sepasi supaya tidak terlalu mepet. 
+
+ketika user menanyakan tentang tempat. kasi juga rasa suasana dari tempat tersebut. apakah tempatnya ramai, cocok untuk kerja, atau santai untuk ngobrol.
 ${mcpReady ? 'Gunakan tools yang tersedia untuk data real-time.' : ''}`;
 
 // ================================================================
@@ -609,7 +619,7 @@ app.post('/api/chat', async (req, res) => {
     // validasi, tolak kalau pesan kosong
 
     const ollamaHost  = process.env.OLLAMA_HOST  || 'http://localhost:11434';
-    const ollamaModel = process.env.OLLAMA_MODEL || 'llama3.2'; // ✅ FIX: 'llama3,2' → 'llama3.2'
+    const ollamaModel = process.env.OLLAMA_MODEL || 'llama3.2';
     // sebagai cadangan jika .env tidak ada maka pakai ini
 
     try {
@@ -617,7 +627,7 @@ app.post('/api/chat', async (req, res) => {
         const ollama = new Ollama({
             host: ollamaHost, // buat koneksi dengan Ollama
             // Ollama remote jalan di server lain jadi butuh API key untuk masuk
-            ...(process.env.OLLAMA_API_KEY // ✅ FIX: 'OLLAMA.API_KEY' → 'OLLAMA_API_KEY'
+            ...(process.env.OLLAMA_API_KEY 
                 ? { headers: { Authorization: `Bearer ${process.env.OLLAMA_API_KEY}` } }
                 : {}),
         });
@@ -639,7 +649,7 @@ app.post('/api/chat', async (req, res) => {
             }));
             // konversi format tools MCP → format Ollama mengerti
 
-            response = await ollama.chat({ model: ollamaModel, messages, tools: ollamaTools }); // ✅ FIX: 'message' → 'messages'
+            response = await ollama.chat({ model: ollamaModel, messages, tools: ollamaTools }); 
             // kirim pesan ke Ollama beserta tools
             // Ollama terima model, messages (riwayat), tools
             // dan Ollama putuskan "user tanya cafe Sintang" → pakai tool atau jawab sendiri
@@ -662,11 +672,11 @@ app.post('/api/chat', async (req, res) => {
                         const text = (result.content || [])
                             .filter(c => c.type === 'text')
                             .map(c => c.text)
-                            .join('\n'); // ✅ FIX: '/n' → '\n'
+                            .join('\n'); 
                         messages.push({ role: 'tool', content: text });
                         // simpan hasil tool ke riwayat supaya Ollama bisa baca
                     } catch (toolErr) {
-                        messages.push({ role: 'tool', content: `Error: ${toolErr.message}` }); // ✅ FIX: 'message' → 'messages'
+                        messages.push({ role: 'tool', content: `Error: ${toolErr.message}` });
                     }
                 }
 
@@ -690,7 +700,7 @@ app.post('/api/chat', async (req, res) => {
         console.error('[/api/chat error]', e.message);
         let userMsg = e.message;
 
-        if (e.message.includes('ECONNREFUSED') || e.message.includes('fetch failed')) { // ✅ FIX: 'ECONNREFUND' → 'ECONNREFUSED'
+        if (e.message.includes('ECONNREFUSED') || e.message.includes('fetch failed')) {
             userMsg = `Ollama tidak bisa dijangkau di ${ollamaHost}.\n\nSolusi:\n• Kalau pakai Ollama lokal: jalankan "ollama serve" di terminal lain\n• Kalau pakai server guru: cek OLLAMA_HOST di file .env`;
         } else if (e.message.includes('model') && e.message.includes('not found')) {
             userMsg = `Model "${ollamaModel}" tidak ditemukan.\n\nSolusi: jalankan "ollama pull ${ollamaModel}" di terminal`;
@@ -707,7 +717,7 @@ app.post('/api/chat', async (req, res) => {
 // Menghapus riwayat percakapan satu sesi saat user klik tombol
 // "Chat Baru" di index.html. Sesi berikutnya fresh dari system prompt.
 // ================================================================
-app.post('/api/reset', (req, res) => { // ✅ FIX: '/api/rest' → '/api/reset'
+app.post('/api/reset', (req, res) => {
     const { sessionId = 'default' } = req.body || {};
     chatSessions.delete(sessionId);
     res.json({ message: 'Sesi direset.' });
