@@ -16,17 +16,17 @@
       theme: {
         extend: {
           fontFamily: { sans: ['Inter', 'sans-serif'], heading: ['Plus Jakarta Sans', 'sans-serif'] },
-          colors: { brand: { DEFAULT: '#4F46E5', purple: '#7C3AED' } }
+          colors: { brand: { DEFAULT: '#4988C4', dark: '#1C4D8D', navy: '#0F2854', light: '#BDE8F5' } }
         }
       }
     }
   </script>
   <style>
-    :root { --grad: linear-gradient(135deg, #4F46E5, #7C3AED); }
+    :root { --grad: linear-gradient(135deg, #4988C4, #1C4D8D); --grad-deep: linear-gradient(135deg, #1C4D8D, #0F2854); }
     .grad-text { background: var(--grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
     .grad-bg { background: var(--grad); }
     .card-hover { transition: all .3s cubic-bezier(.4,0,.2,1); }
-    .card-hover:hover { transform: translateY(-4px); box-shadow: 0 20px 40px rgba(79,70,229,.15); }
+    .card-hover:hover { transform: translateY(-4px); box-shadow: 0 20px 40px rgba(28,77,141,.18); }
     @keyframes shimmer { 0%,100%{opacity:1} 50%{opacity:.4} }
     .skeleton { animation: shimmer 1.8s ease-in-out infinite; }
     @keyframes spin { to{transform:rotate(360deg)} }
@@ -34,67 +34,76 @@
     #map { z-index: 1; }
     ::-webkit-scrollbar { width: 6px; }
     ::-webkit-scrollbar-track { background: transparent; }
-    ::-webkit-scrollbar-thumb { background: #475569; border-radius: 10px; }
+    ::-webkit-scrollbar-thumb { background: #4988C4; border-radius: 10px; }
 
-    body { background: #F8FAFC; color: #0f172a; }
+    body { background: #F0F7FC; color: #0F2854; }
     .surface { background: #ffffff; }
-    .surface2 { background: #f1f5f9; }
-    .border-c { border-color: #e2e8f0; }
-    .text-sub { color: #64748b; }
-    .text-dim { color: #94a3b8; }
-    .chip-off { border-color: #e2e8f0; color: #374151; }
-    .chip-off:hover { border-color: #a5b4fc; }
+    .surface2 { background: #e8f4fb; }
+    .border-c { border-color: #BDE8F5; }
+    .text-sub { color: #1C4D8D; }
+    .text-dim { color: #4988C4; }
+    .chip-off { border-color: #BDE8F5; color: #1C4D8D; }
+    .chip-off:hover { border-color: #4988C4; }
 
-    html.dark body { background: #0F172A; color: #f1f5f9; }
-    html.dark .surface { background: #1E293B; }
-    html.dark .surface2 { background: #0f172a; }
-    html.dark .border-c { border-color: #334155; }
-    html.dark .text-sub { color: #94a3b8; }
-    html.dark .text-dim { color: #64748b; }
-    html.dark .chip-off { border-color: #334155; color: #cbd5e1; }
-    html.dark .chip-off:hover { border-color: #6366f1; }
-    html.dark .input-bg { background: #1e293b !important; color: #f1f5f9 !important; }
-    html.dark .ac-drop { background: #1e293b; border-color: #334155; }
-    html.dark .ac-item:hover { background: rgba(79,70,229,.15); }
-    html.dark .sk-block { background: #334155 !important; }
-    html.dark .card-inner { background: #1E293B; border-color: #334155; }
-    html.dark .modal-bg { background: #1E293B; border-color: #334155; }
-    html.dark .tag-pill { background: #334155; color: #94a3b8; }
-    html.dark .nav-bg { background: rgba(30,41,59,.85); border-color: #334155; }
-    html.dark .hero-bg { background: #1E293B; }
+    html.dark body { background: #0A1628; color: #C8DFF0; }
+    html.dark .surface { background: #0F1E38; }
+    html.dark .surface2 { background: #0A1628; }
+    html.dark .border-c { border-color: #1E3A5F; }
+    html.dark .text-sub { color: #7AACCC; }
+    html.dark .text-dim { color: #4E7A96; }
+    html.dark .chip-off { border-color: #1E3A5F; color: #7AACCC; }
+    html.dark .chip-off:hover { border-color: #4988C4; }
+    html.dark .input-bg { background: #0F1E38 !important; color: #C8DFF0 !important; }
+    html.dark .ac-drop { background: #0F1E38; border-color: #1E3A5F; }
+    html.dark .ac-item:hover { background: rgba(73,136,196,.12); }
+    html.dark .sk-block { background: #1E3A5F !important; }
+    html.dark .card-inner { background: #0F1E38; border-color: #1E3A5F; }
+    html.dark .modal-bg { background: #0F1E38; border-color: #1E3A5F; }
+    html.dark .tag-pill { background: #1A3254; color: #7AACCC; }
+    html.dark .nav-bg { background: rgba(10,22,40,.92); border-color: #1E3A5F; }
+    html.dark .hero-bg { background: #0A1628; }
     html.dark .status-ok { background: rgba(20,83,45,.4); color: #4ade80; }
     html.dark .status-err { background: rgba(127,29,29,.4); color: #f87171; }
-    html.dark .map-ph { background: #1e293b; }
+    html.dark .map-ph { background: #0F1E38; }
 
-    html:not(.dark) .input-bg { background: #f8fafc; color: #0f172a; }
-    html:not(.dark) .ac-drop { background: #ffffff; border-color: #e2e8f0; }
-    html:not(.dark) .ac-item:hover { background: #eef2ff; }
-    html:not(.dark) .sk-block { background: #e2e8f0 !important; }
-    html:not(.dark) .card-inner { background: #ffffff; border-color: #e2e8f0; }
-    html:not(.dark) .modal-bg { background: #ffffff; border-color: #e2e8f0; }
-    html:not(.dark) .tag-pill { background: #f1f5f9; color: #475569; }
-    html:not(.dark) .nav-bg { background: rgba(255,255,255,.85); border-color: #e2e8f0; }
-    html:not(.dark) .hero-bg { background: #ffffff; }
+    html:not(.dark) .input-bg { background: #f0f7fc; color: #0F2854; }
+    html:not(.dark) .ac-drop { background: #ffffff; border-color: #BDE8F5; }
+    html:not(.dark) .ac-item:hover { background: #e0f2fb; }
+    html:not(.dark) .sk-block { background: #BDE8F5 !important; }
+    html:not(.dark) .card-inner { background: #ffffff; border-color: #BDE8F5; }
+    html:not(.dark) .modal-bg { background: #ffffff; border-color: #BDE8F5; }
+    html:not(.dark) .tag-pill { background: #e8f4fb; color: #1C4D8D; }
+    html:not(.dark) .nav-bg { background: rgba(255,255,255,.90); border-color: #BDE8F5; }
+    html:not(.dark) .hero-bg { background: linear-gradient(180deg, #e8f4fb 0%, #ffffff 100%); }
     html:not(.dark) .status-ok { background: #f0fdf4; color: #16a34a; }
     html:not(.dark) .status-err { background: #fef2f2; color: #dc2626; }
-    html:not(.dark) .map-ph { background: #f1f5f9; }
+    html:not(.dark) .map-ph { background: #e8f4fb; }
 
     #ai-fab {
       position: fixed; bottom: 28px; right: 28px;
       width: 60px; height: 60px; border-radius: 50%;
-      background: linear-gradient(135deg,#4F46E5,#7C3AED);
+      background: linear-gradient(135deg,#4988C4,#1C4D8D);
       display: flex; align-items: center; justify-content: center;
       font-size: 26px; z-index: 999; text-decoration: none;
-      box-shadow: 0 8px 32px rgba(79,70,229,.45);
+      box-shadow: 0 8px 32px rgba(28,77,141,.45);
       transition: transform .2s, box-shadow .2s;
     }
-    #ai-fab:hover { transform: scale(1.1); box-shadow: 0 12px 40px rgba(79,70,229,.6); }
+    #ai-fab:hover { transform: scale(1.1); box-shadow: 0 12px 40px rgba(28,77,141,.65); }
     #ai-fab .notif {
       position: absolute; top: 2px; right: 2px;
       width: 14px; height: 14px; background: #22c55e;
       border-radius: 50%; border: 2px solid white;
     }
     @media(max-width:480px) { #ai-fab { right: 16px; bottom: 20px; } }
+
+    #ac-list::-webkit-scrollbar { width: 4px; }
+    #ac-list::-webkit-scrollbar-track { background: transparent; }
+    #ac-list::-webkit-scrollbar-thumb { background: #6366f1; border-radius: 4px; }
+
+    .ac-item {
+      cursor: pointer;
+      transition: background 0.15s;
+    }
   </style>
 </head>
 
@@ -120,10 +129,10 @@
   <!-- Hero -->
   <section class="hero-bg relative overflow-hidden pt-16 pb-12 px-6">
     <div class="absolute inset-0 pointer-events-none">
-      <div class="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-4xl h-64 bg-indigo-500/5 blur-[120px] rounded-full"></div>
+      <div class="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-4xl h-64 bg-sky-400/10 blur-[120px] rounded-full"></div>
     </div>
     <div class="max-w-4xl mx-auto text-center relative z-10">
-      <span class="inline-block px-4 py-1.5 mb-6 text-xs font-bold tracking-widest uppercase rounded-full bg-indigo-500/10 text-indigo-500">
+      <span class="inline-block px-4 py-1.5 mb-6 text-xs font-bold tracking-widest uppercase rounded-full bg-sky-500/10 text-sky-600 dark:text-sky-300 border border-sky-200 dark:border-sky-700">
         ✨ Rekomendasi Tempat Nongkrong
       </span>
       <h1 class="font-heading text-4xl md:text-6xl font-extrabold mb-6 leading-[1.1]">
@@ -136,7 +145,7 @@
       <!-- Search Box -->
       <div class="max-w-xl mx-auto mb-4 relative">
         <div id="search-wrapper"
-          class="input-bg flex items-center p-1.5 border border-c rounded-full shadow-sm focus-within:ring-2 focus-within:ring-indigo-500/30 focus-within:border-indigo-500 transition-all">
+          class="input-bg flex items-center p-1.5 border border-c rounded-full shadow-sm focus-within:ring-2 focus-within:ring-sky-400/40 focus-within:border-sky-400 transition-all">
           <input id="search-input" type="text" autocomplete="off" placeholder="Cari kota, area, atau nama tempat..."
             class="input-bg flex-1 border-none focus:ring-0 px-4 text-sm bg-transparent"
             onkeydown="if(event.key==='Enter') searchByKeyword()" oninput="onSearchInput(this.value)" />
@@ -148,18 +157,18 @@
         <!-- Autocomplete Dropdown -->
         <div id="ac-drop"
           class="ac-drop hidden absolute left-0 right-0 z-30 mt-2 rounded-2xl shadow-2xl border border-c overflow-hidden">
-          <ul id="ac-list" class="divide-y divide-current"></ul>
+            <ul id="ac-list" class="divide-y divide-current" style="max-height:260px;overflow-y:auto;"></ul>
         </div>
       </div>
 
       <button onclick="getLocation()"
-        class="text-sm font-medium text-sub hover:text-indigo-500 flex items-center gap-1.5 mx-auto mb-8 transition-colors">
+        class="text-sm font-medium text-sub hover:text-sky-500 flex items-center gap-1.5 mx-auto mb-8 transition-colors">
         📍 Gunakan Lokasi Saya
       </button>
 
       <!-- Filter Chips -->
       <div class="flex flex-wrap justify-center gap-2 max-w-2xl mx-auto">
-        <button class="chip border border-indigo-600 bg-indigo-600 text-white px-4 py-1.5 rounded-full text-sm font-medium transition-all"
+        <button class="chip border border-[#1C4D8D] bg-[#1C4D8D] text-white px-4 py-1.5 rounded-full text-sm font-medium transition-all"
           onclick="setFilter(this,'all')">🗺️ Semua</button>
         <button class="chip chip-off border px-4 py-1.5 rounded-full text-sm font-medium transition-all"
           onclick="setFilter(this,'cafe')">☕ Cafe</button>
@@ -260,7 +269,8 @@
           </div>
           <div class="grid grid-cols-2 gap-2">
             <a id="btn-search-phone" href="#" target="_blank"
-              class="flex items-center justify-center gap-2 p-3 rounded-2xl bg-blue-50 dark:bg-blue-900/30 hover:bg-blue-100 dark:hover:bg-blue-900/50 text-blue-600 dark:text-blue-400 font-semibold text-sm transition-colors">
+              class="flex items-center justify-center gap-2 p-3 rounded-2xl hover:opacity-90 font-semibold text-sm transition-colors"
+              style="background:#e8f4fb;color:#1C4D8D">
               🔍 Cari Nomor
             </a>
             <a id="btn-wa-search" href="#" target="_blank"
@@ -377,10 +387,10 @@
     // ============================================================
     function setFilter(el, type) {
       document.querySelectorAll('.chip').forEach(c => {
-        c.classList.remove('border-indigo-600', 'bg-indigo-600', 'text-white');
+        c.classList.remove('border-[#1C4D8D]', 'bg-[#1C4D8D]', 'text-white');
         c.classList.add('chip-off');
       });
-      el.classList.add('border-indigo-600', 'bg-indigo-600', 'text-white');
+      el.classList.add('border-[#1C4D8D]', 'bg-[#1C4D8D]', 'text-white');
       el.classList.remove('chip-off');
       activeFilter = type;
 
@@ -451,7 +461,7 @@
         d.predictions.forEach(pred => {
           const li = document.createElement('li');
           li.className = 'ac-item px-4 py-3 text-sm cursor-pointer flex items-center gap-3 transition-colors';
-          li.innerHTML = `<span class="text-indigo-500">📍</span>
+          li.innerHTML = `<span style="color:#4988C4">📍</span>
             <div>
               <p class="font-medium">${pred.structured_formatting?.main_text || pred.description}</p>
               <p class="text-dim text-xs">${pred.structured_formatting?.secondary_text || ''}</p>
@@ -567,7 +577,7 @@
       if (isUser) {
         if (userMarker) { leafMap.removeLayer(userMarker); userMarker = null; }
         const icon = L.divIcon({
-          html: '<div style="width:16px;height:16px;background:#4F46E5;border-radius:50%;border:3px solid white;box-shadow:0 0 0 5px rgba(79,70,229,.3)"></div>',
+          html: '<div style="width:16px;height:16px;background:#4988C4;border-radius:50%;border:3px solid white;box-shadow:0 0 0 5px rgba(73,136,196,.35)"></div>',
           className: '', iconAnchor: [8, 8]
         });
         userMarker = L.marker([lat, lng], { icon, zIndexOffset: 1000 })
@@ -596,7 +606,7 @@
         const name = (p.name || '').slice(0, 18) + (p.name?.length > 18 ? '…' : '');
 
         const icon = L.divIcon({
-          html: `<div style="background:#7C3AED;color:white;padding:3px 9px;border-radius:20px;font-size:11px;font-weight:700;box-shadow:0 2px 8px rgba(0,0,0,.4);white-space:nowrap">${em} ${name}</div>`,
+          html: `<div style="background:#1C4D8D;color:white;padding:3px 9px;border-radius:20px;font-size:11px;font-weight:700;box-shadow:0 2px 8px rgba(0,0,0,.4);white-space:nowrap">${em} ${name}</div>`,
           className: '', iconAnchor: [0, 10]
         });
         L.marker([loc.lat, loc.lng], { icon })
@@ -641,11 +651,11 @@
         const card = document.createElement('div');
         card.className = 'group card-hover card-inner border rounded-3xl overflow-hidden cursor-pointer';
         card.innerHTML = `
-          <div class="h-48 overflow-hidden relative" style="background:#e2e8f0">
+          <div class="h-48 overflow-hidden relative" style="background:#BDE8F5">
             ${photoHtml}
           </div>
           <div class="p-5">
-            <span class="text-[10px] font-bold uppercase tracking-widest text-indigo-500 mb-1 block">${typeLabel}</span>
+            <span class="text-[10px] font-bold uppercase tracking-widest text-[#4988C4] mb-1 block">${typeLabel}</span>
             <h3 class="font-heading font-bold mb-2 line-clamp-1">${p.name || 'Tanpa Nama'}</h3>
             <p class="text-sub text-xs line-clamp-2 mb-4 leading-relaxed">📍 ${p.vicinity || p.formatted_address || '-'}</p>
             <div class="flex items-center justify-end pt-4" style="border-top:1px solid rgba(100,116,139,.15)">
@@ -865,7 +875,7 @@
       const webEl  = document.getElementById('m-web');
       if (p.website) {
         try {
-          webEl.innerHTML = `<a href="${p.website}" target="_blank" class="text-indigo-500 hover:underline truncate block">${new URL(p.website).hostname}</a>`;
+          webEl.innerHTML = `<a href="${p.website}" target="_blank" class="hover:underline truncate block" style="color:#4988C4">${new URL(p.website).hostname}</a>`;
           webRow.classList.remove('hidden');
         } catch { webRow.classList.add('hidden'); }
       } else {
@@ -912,7 +922,7 @@
             }
             if (det.website) {
               try {
-                document.getElementById('m-web').innerHTML = `<a href="${det.website}" target="_blank" class="text-indigo-500 hover:underline truncate block">${new URL(det.website).hostname}</a>`;
+                document.getElementById('m-web').innerHTML = `<a href="${det.website}" target="_blank" class="hover:underline truncate block" style="color:#4988C4">${new URL(det.website).hostname}</a>`;
                 document.getElementById('m-web-row').classList.remove('hidden');
               } catch { }
             }
