@@ -8,7 +8,7 @@ SpotIn adalah aplikasi web untuk mencari cafe, restoran, dan tempat nongkrong di
 
 | Nama | TUGAS |
 |------|-----|
-| [kelvin] | [mcp-server.ts], [server.js], [map.html], [server.js] dan [index.html] |
+| [kelvin] | [mcp-server.ts], [server.js], [map.html], [server.js], [index.html], [places.json], [.env] |
 | [Egi] | [mcp-server.ts] & [server.js] |
 | [Amoy] | [map.html] |
 | [putri] | [index.html] |
@@ -32,9 +32,8 @@ SpotIn adalah aplikasi web untuk mencari cafe, restoran, dan tempat nongkrong di
 SpotIn1/
 ├── data/
 │   └── places.json       ← Database lokal 40 tempat (Sintang & Pontianak)
-├── public/
-│   ├── index.html        ← Halaman Chat AI
-│   └── map.html          ← Halaman Peta Interaktif
+|── index.html        ← Halaman Chat AI
+│── map.html          ← Halaman Peta Interaktif
 ├── node_modules/         ← Dependencies (auto-generated)
 ├── .env                  ← API keys (buat manual, jangan di-upload)
 ├── mcp-server.ts         ← MCP Server (3 tools pencarian tempat)
@@ -100,7 +99,7 @@ Buat file `.env` di dalam folder SpotIn1:
 PORT=3000
 GEOAPIFY_API_KEY=isi_api_key_geoapify_disini
 OLLAMA_HOST=http://localhost:11434
-OLLAMA_MODEL=llama3.2
+OLLAMA_MODEL=gpt-oss:120b
 OLLAMA_API_KEY=
 ```
 
@@ -110,19 +109,10 @@ OLLAMA_API_KEY=
 3. Copy API key → paste ke `.env`
 4. Gratis: 3.000 request/hari
 
-### 5. Install dan jalankan Ollama
-```bash
-# Download Ollama dari ollama.com
-# Lalu pull model:
-ollama pull llama3.2
 
-# Jalankan Ollama:
-ollama serve
-```
-
-### 6. Jalankan SpotIn
+### 5. Jalankan SpotIn
 ```bash
-npm start
+npm run dev
 ```
 
 Buka browser → `http://localhost:3000`
@@ -201,3 +191,4 @@ ollama serve  # jalankan di terminal terpisah
 - File `.env` **jangan di-upload ke GitHub** karena berisi API key rahasia
 - Folder `node_modules` **tidak perlu di-upload** — jalankan `npm install` untuk generate ulang
 - Data Geoapify untuk kota kecil seperti Sintang mungkin terbatas — itulah fungsi `places.json`
+- saya sarankan untuk mengetikan sintang atau pontianak untuk AI nya, data itu yang paling benar dari places.json

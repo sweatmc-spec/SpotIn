@@ -725,6 +725,70 @@
         max-width: 85%
       }
     }
+
+    /* Styling markdown di bubble AI */
+.markdown-body {
+  font-size: 0.85rem;
+  line-height: 1.65;
+}
+.markdown-body table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 0.75rem 0;
+  font-size: 0.78rem;
+  display: block;
+  overflow-x: auto;
+}
+.markdown-body table th,
+.markdown-body table td {
+  border: 1px solid var(--border);
+  padding: 0.45rem 0.65rem;
+  text-align: left;
+  vertical-align: middle;
+  white-space: nowrap;        /* ← ini yang cegah teks turun ke bawah */
+}
+.markdown-body table th {
+  background: var(--ungu-bg);
+  font-weight: 800;
+  color: var(--ungu);
+}
+.markdown-body table td:nth-child(1) {
+  text-align: center;
+  width: 35px;
+  min-width: 35px;
+}
+.markdown-body table td:nth-child(2) {
+  min-width: 160px;
+  font-weight: 700;
+}
+.markdown-body table td:nth-child(3) {
+  min-width: 200px;
+  white-space: normal;        /* ← alamat boleh wrap */
+  max-width: 280px;
+}
+.markdown-body table td:nth-child(4) {
+  min-width: 130px;           /* ← kolom kontak/telepon */
+}
+.markdown-body table tr:nth-child(even) {
+  background: var(--bg);
+}
+.markdown-body table tr:hover {
+  background: var(--ungu-bg);
+}
+.markdown-body strong { font-weight: 800; color: var(--teks); }
+.markdown-body ul, .markdown-body ol { padding-left: 1.2rem; margin: 0.4rem 0; }
+.markdown-body li { margin: 0.25rem 0; line-height: 1.6; }
+.markdown-body p { margin: 0.4rem 0; line-height: 1.65; }
+.markdown-body h1, .markdown-body h2, .markdown-body h3 {
+  font-weight: 800; margin: 0.6rem 0 0.3rem; color: var(--teks);
+}
+.markdown-body a { color: var(--ungu); word-break: break-all; }
+.markdown-body code {
+  background: var(--bg2);
+  padding: 0.1rem 0.4rem;
+  border-radius: 4px;
+  font-size: 0.82rem;
+}
   </style>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/9.1.6/marked.min.js"></script>
 </head>
@@ -777,7 +841,7 @@
           <div class="chips">
             <div class="chip" onclick="kirimTeks('Cafe di Pontianak')">☕ Cafe Pontianak</div>
             <div class="chip" onclick="kirimTeks('Restoran enak di Sintang')">🍜 Resto Sintang</div>
-            <div class="chip" onclick="kirimTeks('Tempat nongkrong di Singkawang')">🗺️ Singkawang</div>
+            <div class="chip" onclick="kirimTeks('Tempat nongkrong di Sintang')">🗺️ Sintang</div>
             <div class="chip" onclick="kirimTeks('Cari Mixue terdekat')">🍦 Cari Mixue</div>
           </div>
         </div>

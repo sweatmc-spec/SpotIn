@@ -54,7 +54,18 @@ function isBlacklisted(name: string): boolean {
 // ================================================================
 function cariDataLokal(kota: string, tipe: string): any[] {
   if (!localPlaces.length) return [];
-  const kotaLower = kota.toLowerCase().replace(/, indonesia/g, "").trim();
+
+  // Daftar kota yang punya data lokal
+  const KOTA_LOKAL = ["sintang", "pontianak", "singkawang"];
+
+  const kotaLower = kota.toLowerCase()
+    .replace(/, indonesia/g, "")
+    .trim();
+
+  // Cek apakah kota ini ada di data lokal
+  const kotaAda = KOTA_LOKAL.some(k => kotaLower.includes(k) || k.includes(kotaLower));
+  if (!kotaAda) return []; // Bukan kota lokal → fallback Geoapify
+
   return localPlaces.filter(p => {
     const kotaMatch = p.kota?.toLowerCase().includes(kotaLower) ||
                       kotaLower.includes(p.kota?.toLowerCase());
@@ -86,14 +97,19 @@ function formatLokal(p: any): any {
 // ================================================================
 function formatHasil(places: any[], label: string, sumber = "geoapify"): string {
   if (!places.length) return `Tidak ada ${label} ditemukan.`;
+
   const info = sumber === "lokal"
-    ? "📋 Data dari database lokal SpotIn\n\n"
-    : "🌐 Data dari Geoapify (real-time)\n\n";
+    ? "📋 Data dari database SpotIn\n\n"
+    : "🌐 Data dari Geoapify — verifikasi lewat link Maps ya!\n\n";
+
   const lines = places.slice(0, 15).map((p, i) => {
     const phone = p.phone   ? ` | 📞 ${p.phone}`   : "";
     const web   = p.website ? ` | 🌐 ${p.website}` : "";
-    return `${i + 1}. ${p.name}\n   📍 ${p.address || "-"}${phone}${web}`;
+    const query = encodeURIComponent((p.name || '') + ' ' + (p.address || ''));
+    const maps  = `[📍 Google Maps](https://www.google.com/maps/search/?api=1&query=${query})`;
+    return `${i + 1}. **${p.name}**\n   📍 ${p.address || "-"}${phone}${web}\n   ${maps}`;
   });
+
   return `${info}Ditemukan ${places.length} ${label}:\n\n${lines.join("\n\n")}`;
 }
 
@@ -188,7 +204,7 @@ server.tool(
       const [r1, r2, r3] = await Promise.allSettled([
         fetchOnce(centerLng, centerLat, category, 10000, 40),
         fetchOnce(centerLng, centerLat, category, 25000, 40),
-        fetchOnce(centerLng, centerLat, category, 50000, 40),
+        fetchOnce(centerLng, centerLat, category, 30000, 40),
       ]);
       let places = dedupe([
         ...(r1.status === "fulfilled" ? r1.value : []),
@@ -197,7 +213,7 @@ server.tool(
       ]);
       if (places.length < 15) {
         const SUB = ["catering.cafe","catering.restaurant","catering.fast_food","catering.food_court","catering.bar","catering.ice_cream"];
-        const subs = await Promise.allSettled(SUB.map(c => fetchOnce(centerLng, centerLat, c, 50000, 20)));
+        const subs = await Promise.allSettled(SUB.map(c => fetchOnce(centerLng, centerLat, c, 30000, 20)));
         places = dedupe([...places, ...subs.filter((b): b is PromiseFulfilledResult<any[]> => b.status === "fulfilled").flatMap(b => b.value)]);
       }
 
@@ -227,7 +243,7 @@ server.tool(
         Math.pow((p.lng - lng) * 111 * Math.cos((lat * Math.PI) / 180), 2)
       );
       const lokal = localPlaces
-        .filter(p => (tipe === "all" || p.tipe === tipe) && p.lat && p.lng && jarak(p) <= 50)
+        .filter(p => (tipe === "all" || p.tipe === tipe) && p.lat && p.lng && jarak(p) <= 30)
         .sort((a, b) => jarak(a) - jarak(b));
 
       if (lokal.length > 0) {
@@ -276,7 +292,7 @@ server.tool(
       // Fallback Geoapify
       console.error(`[tool3] ⚡ Fallback Geoapify nama "${nama}"`);
       const params: any = { name: nama, limit: 20, apiKey: getKey() };
-      if (lat && lng) { params.filter = `circle:${lng},${lat},50000`; params.bias = `proximity:${lng},${lat}`; }
+      if (lat && lng) { params.filter = `circle:${lng},${lat},30000`; params.bias = `proximity:${lng},${lat}`; }
       const { data } = await axios.get(`${GEO_BASE}/v2/places`, { params });
       const places = (data.features || []).map(formatPlaceGeo).filter((p: any) => p !== null);
       return { content: [{ type: "text", text: formatHasil(places, `hasil pencarian "${nama}"`, "geoapify") }] };
