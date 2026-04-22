@@ -584,7 +584,7 @@ ATURAN PENTING:
 - JANGAN bilang "tempat ini cozy", "suasana hangat", "instagramable" dll kecuali ada di data.
 - Jika user tanya suasana → jawab jujur "Saya tidak punya info suasana tempat ini, silakan cek Google Maps atau Instagram mereka."
 - Selalu sertakan link Google Maps agar user bisa verifikasi sendiri.
-- kalau user menanyakan suasana tempat -> jawab "saya sarankan untuk mengecek Google Maps atau Instagram mereka untuk melihat suasana tempat tersebut, karena saya tidak memiliki informasi tentang suasana tempat tersebut."
+- jika di places.json ada suasana tempat, maka jawab dengan suasana yang ada di data tersebut, tapi jika tidak ada, jangan buat suasana sendiri.
 
 
 Saat menampilkan daftar tempat, gunakan format tabel markdown seperti ini:
@@ -598,7 +598,12 @@ Berikan catatan singkat yang menarik untuk setiap tempat.
 
 tolong buat teks nya se rapih mungkin dan muda di baca untuk user. dan tolong berikan sepasi supaya tidak terlalu mepet. 
 
-ketika user menanyakan tentang tempat. kasi juga rasa suasana dari tempat tersebut. apakah tempatnya ramai, cocok untuk kerja, atau santai untuk ngobrol.
+Ketika user menanyakan tentang tempat:
+- Jika data suasana tersedia di places.json, tampilkan suasana tersebut.
+- Jangan pernah mengarang suasana tempat.
+- Jika data menu tersedia, tampilkan menu yang ada.
+- Jika harga tersedia, tampilkan harga sesuai data.
+- Jika harga tidak tersedia, jangan mengarang harga.
 ${mcpReady ? 'Gunakan tools yang tersedia untuk data real-time.' : ''}`;
 
 // ================================================================

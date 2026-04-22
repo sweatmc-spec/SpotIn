@@ -82,12 +82,17 @@ function cariDataLokal(kota: string, tipe: string): any[] {
 function formatLokal(p: any): any {
   return {
     place_id: `local_${p.id}`,
-    name:     p.name,
-    address:  p.alamat,
-    lat:      p.lat,
-    lng:      p.lng,
-    phone:    p.telepon || null,
-    website:  p.website || null,
+    name: p.name,
+    city: p.kota || null,
+    type: p.tipe || null,
+    address: p.alamat,
+    lat: p.lat,
+    lng: p.lng,
+    phone: p.telepon || null,
+    website: p.website || null,
+    atmosphere: p.suasana || null,
+    menu: p.menu || [],
+    price_range: p.harga_range || null,
   };
 }
 
@@ -105,9 +110,19 @@ function formatHasil(places: any[], label: string, sumber = "geoapify"): string 
   const lines = places.slice(0, 15).map((p, i) => {
     const phone = p.phone   ? ` | 📞 ${p.phone}`   : "";
     const web   = p.website ? ` | 🌐 ${p.website}` : "";
+    const atmosphere = p.atmosphere ? `\n   ☕ Suasana: ${p.atmosphere}` : "";
+    const price = p.price_range ? `\n   💰 Harga: ${p.price_range}` : "";
+      const menu =
+    p.menu && p.menu.length
+      ? `\n   🍽️ Menu: ${p.menu.slice(0, 5).map((m: any) =>
+          m.harga
+            ? `${m.nama} (${m.harga})`
+            : m.nama
+        ).join(", ")}`
+      : "";
     const query = encodeURIComponent((p.name || '') + ' ' + (p.address || ''));
     const maps  = `[📍 Google Maps](https://www.google.com/maps/search/?api=1&query=${query})`;
-    return `${i + 1}. **${p.name}**\n   📍 ${p.address || "-"}${phone}${web}\n   ${maps}`;
+    return `${i + 1}. **${p.name}**\n   📍 ${p.address || "-"}${phone}${web}${atmosphere}${price}${menu}\n   ${maps}`;
   });
 
   return `${info}Ditemukan ${places.length} ${label}:\n\n${lines.join("\n\n")}`;

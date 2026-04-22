@@ -1,6 +1,6 @@
 # SpotIn — Temukan Spot Nongkrong Terbaik 🗺️
 
-> Kelompok 3 — Mata Kuliah Model Context Protocol
+> Kelompok 3 
 
 SpotIn adalah aplikasi web pencari cafe, restoran, dan tempat nongkrong di kota-kota Indonesia. Menggabungkan **Peta Interaktif** berbasis Geoapify + Leaflet dan **Chat AI** berbasis MCP + Ollama.
 
