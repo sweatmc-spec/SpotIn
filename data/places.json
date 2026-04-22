@@ -1,5 +1,5 @@
   [
-  { "id": 1,  "name": "TOSS Cafe Sintang", "kota": "Sintang", "tipe": "cafe", "alamat": "TOSS Cafe Sintang,Jl. Lintas Melawi, Ladang, Kecamatan Sintang, Kabupaten Sintang, Kalimantan Barat", "telepon": null, "website": null, "lat": -0.0590, "lng": 111.4812 },
+  { "id": 1,  "name": "Elsana", "kota": "Sintang", "tipe": "cafe", "alamat": "ELSANA COFFEE SINTANG, Ladang, Sintang, Sintang Regency, West Kalimantan 78613", "telepon": null, "website": null, "suasana": "", "lat": -0.0590, "lng": 111.4812 },
   { "id": 2,  "name": "Cafe Dhea", "kota": "Sintang", "tipe": "cafe", "alamat": "Cafe Dhea,Jl. PKP Mujahidin, Ladang, Kecamatan Sintang, Kabupaten Sintang, Kalimantan Barat", "telepon": null, "website": null, "lat": -0.0601, "lng": 111.4798 },
   { "id": 3,  "name": "Aming Coffee Sintang", "kota": "Sintang", "tipe": "cafe", "alamat": "Aming Coffee Sintang,Ladang, Kecamatan Sintang, Kabupaten Sintang, Kalimantan Barat", "telepon": null, "website": null, "lat": -0.0612, "lng": 111.4780 },
   { "id": 4,  "name": "Kedai Kopi Tarik", "kota": "Sintang", "tipe": "cafe", "alamat": "Kedai Kopi Tarik,Jl. Lintas Melawi, Ladang, Kecamatan Sintang, Kabupaten Sintang, Kalimantan Barat", "telepon": null, "website": null, "lat": -0.0595, "lng": 111.4820 },
