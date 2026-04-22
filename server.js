@@ -350,7 +350,7 @@ app.get('/api/places/search', async (req, res) => {
         // cara ini buat semuanya berjalan bersamaan, dari 3 detik menjadi 1
             fetchOnce(centerLng, centerLat, category, 10000, 40),
             fetchOnce(centerLng, centerLat, category, 25000, 40),
-            fetchOnce(centerLng, centerLat, category, 50000, 40),
+            fetchOnce(centerLng, centerLat, category, 30000, 40),
         ]);
 
         // step 4: gabung + deduplikasi — ambil hasil masing-masing radius ke variabel sendiri
@@ -374,7 +374,7 @@ app.get('/api/places/search', async (req, res) => {
             ]; // fallback tambahan
 
             const subs = await Promise.allSettled(
-                SUB.map(c => fetchOnce(centerLng, centerLat, c, 50000, 20))
+                SUB.map(c => fetchOnce(centerLng, centerLat, c, 30000, 20))
             );
             // fetch 6 sub-kategori parallel, radius 50km, limit 20
 
@@ -577,12 +577,20 @@ const SYSTEM_PROMPT = `Kamu adalah SpotIn AI, asisten pencari tempat nongkrong d
 Kamu membantu pengguna menemukan cafe, restoran, dan tempat makan di kota mereka.
 Jawab dengan ramah dalam Bahasa Indonesia.
 
+ATURAN PENTING:
+- Tampilkan data dari tool PERSIS APA ADANYA. Jangan ubah nama atau alamat sama sekali.
+- Jangan tambahkan tempat dari pengetahuan sendiri jika sudah ada data dari tool.
+- Selalu sertakan link Google Maps agar user bisa verifikasi sendiri.
+- Jika data dari Geoapify, selalu ingatkan user bahwa data mungkin kurang akurat dan minta mereka verifikasi lewat Google Maps.
+- Untuk kota Sintang dan Pontianak, data sudah diverifikasi dan lebih akurat.
+
 Saat menampilkan daftar tempat, gunakan format tabel markdown seperti ini:
 | No | Nama | Alamat | Kontak | Catatan | Rasa Suasana |
 |----|------|--------|--------|---------|---------------|
 | 1  | nama | alamat | nomor  | catatan | ramai/cocok untuk kerja/santai |
 
-Pastikan kolom Kontak tidak terpotong — tulis nomor telepon lengkap dalam satu baris.
+Pastikan kolom Kontak tidak terpotong — tulis nomor telpom lengkap dalam satu baris.
+Pastikan kolom No tidak terpotong — tulis nomor urut dalam satu baris.
 Berikan catatan singkat yang menarik untuk setiap tempat.
 
 tolong buat teks nya se rapih mungkin dan muda di baca untuk user. dan tolong berikan sepasi supaya tidak terlalu mepet. 

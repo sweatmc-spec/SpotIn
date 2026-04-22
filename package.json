@@ -22,11 +22,9 @@
   "devDependencies": {
     "@types/express": "^4.17.0",
     "@types/node": "^20.0.0",
-    "nodemon": "^3.1.14",
+    "nodemon": "^3.1.4",
     "tsx": "^4.0.0",
     "typescript": "^5.0.0"
   },
-  "engines": {
-    "node": ">=18.0.0"
-  }
+  "engines": { "node": ">=18.0.0" }
 }

@@ -1,32 +1,19 @@
-# environment variables (RAHASIA)
+# Environment variables
 .env
-.env.*
+.env.local
+.env.*.local
 
-# node modules (dependency)
+# Dependencies
 node_modules/
 
-# build output
+# Build output
 dist/
 build/
 
-# logs
-logs/
+# Logs
 *.log
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
 
-# OS files
+# OS / Editor files
 .DS_Store
 Thumbs.db
-
-# editor files
 .vscode/
-.idea/
-
-# cache
-.cache/
-.temp/
-
-# optional
-coverage/   

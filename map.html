@@ -95,6 +95,18 @@
       border-radius: 50%; border: 2px solid white;
     }
     @media(max-width:480px) { #ai-fab { right: 16px; bottom: 20px; } }
+<<<<<<< HEAD
+=======
+
+    #ac-list::-webkit-scrollbar { width: 4px; }
+    #ac-list::-webkit-scrollbar-track { background: transparent; }
+    #ac-list::-webkit-scrollbar-thumb { background: #6366f1; border-radius: 4px; }
+
+    .ac-item {
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+>>>>>>> fix-all
   </style>
 </head>
 
@@ -148,7 +160,11 @@
         <!-- Autocomplete Dropdown -->
         <div id="ac-drop"
           class="ac-drop hidden absolute left-0 right-0 z-30 mt-2 rounded-2xl shadow-2xl border border-c overflow-hidden">
+<<<<<<< HEAD
           <ul id="ac-list" class="divide-y divide-current"></ul>
+=======
+            <ul id="ac-list" class="divide-y divide-current" style="max-height:260px;overflow-y:auto;"></ul>
+>>>>>>> fix-all
         </div>
       </div>
 
