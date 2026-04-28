@@ -11,9 +11,9 @@ SpotIn adalah aplikasi web pencari cafe, restoran, dan tempat nongkrong di kota-
 | Nama | Tugas |
 |------|-------|
 | Kelvin | Project lead, integrasi sistem, semua file |
-| Egi | `mcp-server.ts` & `server.js` |
-| Amoy | `map.html` |
-| Putri | `index.html` |
+| Egi Hartedy | `mcp-server.ts` & `server.js` |
+| jlyansi putri | `map.html` |
+| putri artika destianti | `index.html` |
 
 ---
 
